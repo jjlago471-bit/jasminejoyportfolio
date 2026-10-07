@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jasmine Joy Lago — Web Developer & Video Editor</title>
+<meta name="description" content="Web developer and video editor. I build fast websites and cut videos that hold attention. See my projects and showreel.">
+<meta property="og:title" content="Jasmine Joy Lago — Web Developer & Video Editor">
+<meta property="og:description" content="I build fast websites and cut videos that hold attention.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07100b; --bg2:#0b1510; --card:#0e1913; --card2:#161626;
+  --line:rgba(255,255,255,.08); --text:#f2f2f8; --muted:#9a9ab3;
+  --pink:#22c55e; --pink2:#4ade80; --violet:#14b8a6; --cyan:#22d3ee; --amber:#fbbf24; --green:#34d399;
+  --r:20px;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --hand:'Caveat','Segoe Script',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{
+  font-family:var(--font);color:var(--text);line-height:1.55;min-height:100vh;
+  background:
+    radial-gradient(900px 500px at 85% -5%,rgba(34,197,94,.16),transparent 60%),
+    radial-gradient(700px 500px at -5% 30%,rgba(20,184,166,.12),transparent 60%),
+    var(--bg);
+  padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--pink2);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto}
+.card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:28px}
+h1,h2,h3{line-height:1.15;letter-spacing:-.01em}
+h2{font-size:1.5rem;font-weight:800}
+.pink{color:var(--pink)}
+.sub{color:var(--muted);font-size:.9rem;margin-top:4px}
+
+/* NAV */
+.nav{position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:12px 16px;margin-bottom:20px;border-radius:18px;border:1px solid var(--line);
+  background:rgba(11,21,16,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
+.logo i{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-style:normal;font-size:.85rem;
+  background:linear-gradient(135deg,var(--pink),var(--violet))}
+.links{display:flex;gap:22px;font-size:.92rem;font-weight:500;color:#d6d6e6}
+.links a{padding:6px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.links a:hover{color:#fff;border-color:var(--pink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:700;font-size:.92rem;padding:12px 24px;border:1px solid transparent;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn-pink{color:#04130a;background:linear-gradient(90deg,var(--pink),#34d399);box-shadow:0 8px 28px rgba(34,197,94,.35)}
+.btn-pink:hover{box-shadow:0 10px 34px rgba(34,197,94,.55)}
+.btn-ghost{background:rgba(255,255,255,.04);border-color:var(--line)}
+.btn-ghost:hover{background:rgba(255,255,255,.09)}
+.btn-violet{background:rgba(20,184,166,.16);border-color:rgba(20,184,166,.45)}
+.btn-violet:hover{background:rgba(20,184,166,.28)}
+.btn-sm{padding:9px 16px;font-size:.82rem}
+.nav-actions{display:flex;gap:10px;align-items:center}
+
+/* LAYOUT */
+.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:20px;align-items:start}
+.col{display:grid;gap:20px;min-width:0}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.hello{font-weight:600;color:#d6d6e6}
+.name{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:800;margin:10px 0 12px}
+.role{font-weight:700;font-size:1.1rem}
+.lede{color:var(--muted);margin:14px 0 24px;max-width:46ch}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;border-top:1px solid var(--line);padding-top:22px}
+.stat{display:flex;align-items:center;gap:12px;min-width:0}
+.stat b{display:block;font-size:.95rem}
+.stat span{font-size:.8rem;color:var(--muted)}
+.ico{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:1rem}
+
+/* EDITOR TIMELINE (hero visual) */
+.nle{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#050a07;box-shadow:0 0 0 1px rgba(34,197,94,.15),0 24px 60px rgba(34,197,94,.14)}
+.nle-bar{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#101b15;border-bottom:1px solid var(--line);font-size:.72rem;color:var(--muted)}
+.dots{display:flex;gap:6px}.dots i{width:9px;height:9px;border-radius:50%;background:#2a2a40}
+.tc{font-variant-numeric:tabular-nums;color:var(--pink2);font-weight:700;letter-spacing:.04em}
+.preview{aspect-ratio:16/8.5;position:relative;display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 25% 30%,rgba(34,197,94,.55),transparent 55%),
+    radial-gradient(circle at 80% 75%,rgba(20,184,166,.6),transparent 55%),#0b1a14}
+.preview::after{content:"";position:absolute;inset:10px;border:1px dashed rgba(255,255,255,.18);border-radius:8px}
+.preview .play{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);display:grid;place-items:center;z-index:1}
+.preview .play::before{content:"";margin-left:3px;border-left:13px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent}
+.tracks{position:relative;padding:10px 12px 12px;display:grid;gap:6px}
+.ruler{height:12px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 1px,transparent 1px 28px);opacity:.6;margin-bottom:2px;mask-image:linear-gradient(#000 40%,transparent)}
+.tr{display:flex;gap:4px;height:24px}
+.clip{border-radius:5px;font-size:.62rem;font-weight:700;padding:5px 7px;white-space:nowrap;overflow:hidden;color:#0a0a12}
+.tr.a .clip{background:repeating-linear-gradient(90deg,rgba(52,211,153,.9) 0 2px,transparent 2px 5px);height:100%;color:transparent;
+  -webkit-mask-image:linear-gradient(0deg,transparent,#000 30%,#000 70%,transparent)}
+.playhead{position:absolute;top:6px;bottom:6px;left:12px;width:2px;background:var(--pink);box-shadow:0 0 12px var(--pink);border-radius:2px;animation:scrub 9s linear infinite}
+.playhead::before{content:"";position:absolute;top:-2px;left:-5px;border-top:7px solid var(--pink);border-left:6px solid transparent;border-right:6px solid transparent}
+@keyframes scrub{from{transform:translateX(0)}to{transform:translateX(var(--span,300px))}}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.about p{margin:14px 0 20px;color:#d2d2e2}
+.avatar{width:128px;text-align:center}
+.avatar .ph{width:128px;height:128px;border-radius:18px;display:grid;place-items:center;font-size:2.4rem;font-weight:800;
+  background:linear-gradient(135deg,var(--pink),var(--violet));border:2px solid rgba(255,255,255,.18);box-shadow:0 0 30px rgba(34,197,94,.35)}
+.avatar small,.hand{font-family:var(--hand);color:var(--pink2);font-size:1.05rem;display:block;margin-top:8px;line-height:1.2}
+
+/* TABS */
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.tabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.tab{border:0;background:transparent;border-radius:999px;padding:7px 16px;font-size:.82rem;font-weight:600;color:var(--muted);transition:background .2s,color .2s}
+.tab[aria-pressed="true"]{background:linear-gradient(90deg,var(--pink),#34d399);color:#04130a}
+.tab:not([aria-pressed="true"]):hover{color:#fff}
+
+/* SKILLS */
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:10px}
+.skill{border:1px solid var(--line);background:rgba(255,255,255,.02);border-radius:14px;padding:14px 6px;text-align:center;font-size:.72rem;font-weight:600;color:#d6d6e6;transition:border-color .2s,background .2s}
+.skill:hover{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06)}
+.skill i{display:grid;place-items:center;width:34px;height:34px;margin:0 auto 8px;border-radius:9px;font-style:normal;font-weight:800;font-size:.8rem;letter-spacing:-.02em}
+.skill[hidden],.proj[hidden]{display:none}
+
+/* PROJECTS */
+.projects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.proj{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;padding:12px;background:rgba(255,255,255,.02);transition:border-color .2s,transform .2s}
+.proj:hover{border-color:rgba(34,197,94,.45)}
+.thumb{position:relative;aspect-ratio:16/10;border-radius:10px;overflow:hidden;margin-bottom:14px}
+.thumb.web::before{content:"";position:absolute;inset:0 0 auto 0;height:16px;background:rgba(0,0,0,.35);
+  background-image:radial-gradient(circle,rgba(255,255,255,.5) 2px,transparent 2.5px);background-size:12px 16px;background-position:6px 0;background-repeat:repeat-x;width:100%}
+.thumb.web::after{content:"";position:absolute;left:12%;right:12%;top:36%;height:10px;border-radius:6px;background:rgba(255,255,255,.55);box-shadow:0 18px 0 -2px rgba(255,255,255,.3),0 34px 0 -2px rgba(255,255,255,.2)}
+.thumb.vid::after{content:"";position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;background:rgba(0,0,0,.4) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/22px no-repeat;border:1px solid rgba(255,255,255,.35)}
+.thumb .len{position:absolute;right:8px;bottom:8px;font-size:.68rem;font-weight:700;background:rgba(0,0,0,.7);padding:2px 7px;border-radius:6px;z-index:1}
+.proj h3{font-size:1rem;font-weight:700}
+.proj p{font-size:.84rem;color:var(--muted);margin:6px 0 14px;flex:1}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.7rem;font-weight:600;padding:4px 9px;border-radius:7px;background:rgba(255,255,255,.07);color:#cfcfe2}
+.go{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#34d399);box-shadow:0 6px 18px rgba(34,197,94,.35);transition:transform .15s}
+.go:hover{transform:scale(1.1)}
+.go svg{width:15px;height:15px}
+
+/* SERVICES */
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+.svc{border:1px solid var(--line);border-radius:14px;padding:16px;background:rgba(255,255,255,.02)}
+.svc .ico{margin-bottom:12px}
+.svc b{display:block;font-size:.92rem;margin-bottom:4px}
+.svc span{font-size:.8rem;color:var(--muted)}
+
+/* EXPERIENCE */
+.exp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.step{border:1px solid var(--line);border-radius:14px;padding:16px;background:rgba(255,255,255,.02)}
+.pill{display:inline-block;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.step b{display:block;margin-bottom:4px}
+.step span{font-size:.82rem;color:var(--muted)}
+
+/* CONTACT */
+.contact{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.contact h2{font-size:1.7rem}
+.contact p{color:#d2d2e2;margin:12px 0 20px}
+.contact .cta{flex-direction:column;align-items:flex-start}
+.contact-img{width:150px;aspect-ratio:1;border-radius:14px;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(circle at 30% 30%,rgba(34,197,94,.55),transparent 60%),radial-gradient(circle at 75% 80%,rgba(20,184,166,.55),transparent 60%),#0b1a14;border:1px solid var(--line)}
+.contact-img svg{width:54px;height:54px}
+
+footer{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:24px;padding:20px 8px 0;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.avail{display:flex;align-items:center;gap:8px;color:#d6d6e6}
+.avail::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.soc{display:flex;gap:14px}.soc a:hover{color:#fff}
+
+@media (max-width:1020px){
+  .grid{grid-template-columns:1fr}
+  .links{display:none}
+}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .exp{grid-template-columns:1fr}
+  .about,.contact{grid-template-columns:1fr}
+  .avatar{width:auto;display:flex;align-items:center;gap:14px;text-align:left}
+  .avatar .ph{width:84px;height:84px;font-size:1.6rem}
+  .contact-img{display:none}
+  .card{padding:22px}
+}
+@media (max-width:520px){
+  .projects{grid-template-columns:1fr}
+  .nav .btn-pink{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .playhead{animation:none;left:35%}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- NAV -->
+<header class="nav">
+  <a href="#home" class="logo" aria-label="Home"><i>&gt;_</i><span data-brand>JJ LAGO</span></a>
+  <nav class="links" aria-label="Main">
+    <a href="#home">Home</a><a href="#about">About</a><a href="#projects">Projects</a>
+    <a href="#skills">Skills</a><a href="#services">Services</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-actions">
+    <a class="btn btn-pink btn-sm" data-github href="https://github.com/jjlago471-bit" target="_blank" rel="noopener">View on GitHub</a>
+  </div>
+</header>
+
+<main class="grid" id="home">
+
+  <!-- LEFT -->
+  <div class="col">
+
+    <section class="card hero" aria-label="Introduction">
+      <div>
+        <p class="hello">Hello, I'm</p>
+        <h1 class="name"><span data-first>Jasmine Joy</span> <span class="pink" data-last>Lago</span></h1>
+        <p class="role">Web Developer &amp; Video Editor</p>
+        <p class="lede">Video editor since 2026, cutting with CapCut, and a web developer who builds fast, clean sites. One person for the page and the footage that goes on it.</p>
+        <div class="cta">
+          <a class="btn btn-pink" href="#projects">View Projects</a>
+          <a class="btn btn-violet" href="#projects" data-filter-jump="video">▶ Watch Reel</a>
+          <a class="btn btn-ghost" data-github href="https://github.com/jjlago471-bit" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <!-- Editing timeline: the memorable element -->
+      <div class="nle" aria-hidden="true">
+        <div class="nle-bar"><div class="dots"><i></i><i></i><i></i></div><span>reel_final_v3.capcut</span><span class="tc" id="tc">00:00:00:00</span></div>
+        <div class="preview"><div class="play"></div></div>
+        <div class="tracks" id="tracks">
+          <div class="ruler"></div>
+          <div class="tr"><div class="clip" style="width:28%;background:#14b8a6">Title</div><div class="clip" style="width:18%;background:#22d3ee">Lower third</div><div class="clip" style="width:34%;background:#14b8a6">Intro.ae</div></div>
+          <div class="tr"><div class="clip" style="width:22%;background:var(--pink)">A001</div><div class="clip" style="width:30%;background:var(--pink2)">B-roll</div><div class="clip" style="width:20%;background:var(--pink)">A002</div><div class="clip" style="width:24%;background:var(--pink2)">Outro</div></div>
+          <div class="tr a"><div class="clip" style="width:100%">audio</div></div>
+          <div class="playhead" id="playhead"></div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="ico" style="background:rgba(34,197,94,.14);color:var(--pink)">&lt;/&gt;</span><div><b>Web Dev</b><span>Built &amp; deployed</span></div></div>
+        <div class="stat"><span class="ico" style="background:rgba(20,184,166,.16);color:var(--violet)">▶</span><div><b>CapCut</b><span>Video editing since 2026</span></div></div>
+        <div class="stat"><span class="ico" style="background:rgba(34,211,238,.14);color:var(--cyan)">✂</span><div><b>Fast Turnaround</b><span>Clear revisions</span></div></div>
+        <div class="stat"><span class="ico" style="background:rgba(251,191,36,.14);color:var(--amber)">★</span><div><b>Always</b><span>Learning</span></div></div>
+      </div>
+    </section>
+
+    <section class="card" id="projects" aria-labelledby="proj-h">
+      <div class="head">
+        <div><h2 id="proj-h">Featured Projects</h2><p class="sub">Websites, web apps, and edited videos.</p></div>
+        <div class="tabs" role="group" aria-label="Filter projects" id="projTabs">
+          <button class="tab" data-f="all" aria-pressed="true">All</button>
+          <button class="tab" data-f="web" aria-pressed="false">Web</button>
+          <button class="tab" data-f="video" aria-pressed="false">Video</button>
+        </div>
+      </div>
+      <div class="projects" id="projList"></div>
+    </section>
+
+    <section class="card" id="experience" aria-labelledby="exp-h">
+      <h2 id="exp-h">Work Experience</h2>
+      <p class="sub">Roles and dates. Edit as you grow.</p>
+      <div class="exp">
+        <div class="step"><span class="pill" style="background:rgba(34,197,94,.15);color:var(--pink2)">2026 – Present</span><b>Video Editor (CapCut)</b><span>Short-form videos, promos, captions, and transitions edited in CapCut.</span></div>
+        <div class="step"><span class="pill" style="background:rgba(34,211,238,.14);color:var(--cyan)">2022 – Present</span><b>Web Developer</b><span>Responsive sites and small web apps, from design to deployment.</span></div>
+        <div class="step"><span class="pill" style="background:rgba(52,211,153,.14);color:var(--green)">Ongoing</span><b>Always Learning</b><span>Motion design, new frameworks, and better workflows.</span></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="col">
+
+    <section class="card" id="about" aria-labelledby="about-h">
+      <div class="about">
+        <div>
+          <h2 id="about-h">About <span class="pink">Me</span></h2>
+          <p>I'm Jasmine Joy Lago, a web developer and video editor with a background in computer science. I edit in CapCut and have been doing it since 2026. I like work where the code and the cut both matter: sites that load fast and look sharp, and videos with clean pacing, sound, and color. Tell me what you need and I'll keep the process simple.</p>
+          <a class="btn btn-pink btn-sm" href="https://drive.google.com/file/d/1zYCay8wml7EEuPuqZqk4Qurw9g1TMGaw/view?usp=sharing" target="_blank" rel="noopener">⬇ View CV</a>
+        </div>
+        <div class="avatar">
+          <div class="ph" aria-label="Your photo goes here" data-initials>JL</div>
+          <small>Edit with intent.<br>Build with care.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="skills" aria-labelledby="skills-h">
+      <div class="head">
+        <div><h2 id="skills-h">Skills &amp; <span class="pink">Tools</span></h2><p class="sub">What I use for web and video.</p></div>
+        <div class="tabs" role="group" aria-label="Filter skills" id="skillTabs">
+          <button class="tab" data-f="all" aria-pressed="true">All</button>
+          <button class="tab" data-f="web" aria-pressed="false">Web Dev</button>
+          <button class="tab" data-f="video" aria-pressed="false">Video</button>
+        </div>
+      </div>
+      <div class="skills" id="skillList"></div>
+    </section>
+
+    <section class="card" id="services" aria-labelledby="svc-h">
+      <h2 id="svc-h">Services</h2>
+      <p class="sub">What I can help you with.</p>
+      <div class="services">
+        <div class="svc"><span class="ico" style="background:rgba(34,211,238,.14);color:var(--cyan)">&lt;/&gt;</span><b>Web Design &amp; Dev</b><span>Modern, responsive websites and web apps.</span></div>
+        <div class="svc"><span class="ico" style="background:rgba(34,197,94,.14);color:var(--pink)">▶</span><b>Video Editing</b><span>Reels, promos, YouTube, and event videos.</span></div>
+        <div class="svc"><span class="ico" style="background:rgba(20,184,166,.16);color:var(--violet)">✦</span><b>Motion Graphics</b><span>Titles, lower thirds, and animated intros.</span></div>
+        <div class="svc"><span class="ico" style="background:rgba(251,191,36,.14);color:var(--amber)">◐</span><b>Color &amp; Sound</b><span>Color grading, audio cleanup, and mixing.</span></div>
+      </div>
+    </section>
+
+    <section class="card contact" id="contact" aria-labelledby="contact-h">
+      <div>
+        <h2 id="contact-h">Let's Work <span class="pink">Together</span></h2>
+        <p>Have a website to build or footage to edit? Send me a message with what you need and your deadline.</p>
+        <div class="cta">
+          <a class="btn btn-pink" data-mail href="mailto:lagojasminejoy@gmail.com">✉ Contact Me</a>
+          <a class="btn btn-ghost" data-github href="https://github.com/jjlago471-bit" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="contact-img" aria-hidden="true">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="#fff"/></svg><span class="hand">Good footage.<br>Better sites.</span></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="avail">Available for freelance web and video work</div>
+  <div>© <span id="yr"></span> <span data-brand>JJ LAGO</span> (<span data-fullname>Jasmine Joy Lago</span>)</div>
+  <div class="soc">
+    <a data-github href="https://github.com/jjlago471-bit" target="_blank" rel="noopener">GitHub</a>
+    <a data-mail href="mailto:lagojasminejoy@gmail.com">Email</a>
+  </div>
+</footer>
+</div>
+
+<script>
+/* ============ EDIT THIS SECTION ============ */
+const CONFIG = {
+  brand: "JJ LAGO",
+  firstName: "Jasmine Joy",
+  lastName: "Lago",
+  github: "https://github.com/jjlago471-bit",
+  email: "lagojasminejoy@gmail.com",
+  reelUrl: "#",
+  // type: "web" or "video". link: live site, repo, or video URL.
+  projects: [
+    { type:"video", title:"Brand Promo Reel", desc:"Promo videos for brands, edited in CapCut with titles, music, and clean pacing.", tags:["CapCut","Promo"], link:"https://drive.google.com/drive/folders/1un8l4Gsu6s1PalnwW3W2l7CqfxyraO2V?usp=sharing", grad:"linear-gradient(135deg,#22c55e,#14b8a6)" },
+    { type:"video", title:"Short-Form Videos", desc:"Vertical clips with captions and quick cuts for Reels, TikTok, and Shorts.", tags:["CapCut","Captions"], link:"https://drive.google.com/drive/folders/1hCV7GI9iR5KK6vx58JBaitURwRuMQMDz?usp=sharing", grad:"linear-gradient(135deg,#f59e0b,#22c55e)" },
+    { type:"video", title:"Client Work", desc:"Videos edited for clients, from raw footage to the final delivered cut.", tags:["CapCut","Client"], link:"https://drive.google.com/drive/folders/1IlcBnTLtybkBwxVI-3H4gO10954reALT?usp=sharing", grad:"linear-gradient(135deg,#22d3ee,#16a34a)" },
+    { type:"web", title:"Web Projects", desc:"My code and websites, with source on GitHub.", tags:["HTML","CSS","JavaScript"], link:"https://github.com/jjlago471-bit", grad:"linear-gradient(135deg,#14b8a6,#0ea5e9)" }
+  ],
+  // type: "web" or "video"; code is the 1-2 letter badge; color is the badge colour.
+  skills: [
+    { n:"HTML5", t:"web", c:"HT", col:"#e34f26" }, { n:"CSS3", t:"web", c:"CS", col:"#2965f1" },
+    { n:"JavaScript", t:"web", c:"JS", col:"#f7df1e", dark:true }, { n:"React", t:"web", c:"Re", col:"#61dafb", dark:true },
+    { n:"Node.js", t:"web", c:"No", col:"#68a063" }, { n:"Git/GitHub", t:"web", c:"Gi", col:"#6e5494" },
+    { n:"Figma", t:"web", c:"Fi", col:"#f24e1e" }, { n:"Vercel", t:"web", c:"Ve", col:"#333" },
+    { n:"CapCut", t:"video", c:"Cc", col:"#e5e5e5", dark:true }
+    // add more video tools here, e.g. { n:"Canva", t:"video", c:"Ca", col:"#00c4cc" }
+  ]
+};
+/* ============================================ */
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+// Fill basic info
+$$('[data-brand]').forEach(e => e.textContent = CONFIG.brand);
+$('[data-first]').textContent = CONFIG.firstName;
+$('[data-last]').textContent = CONFIG.lastName;
+$$('[data-fullname]').forEach(e => e.textContent = CONFIG.firstName + ' ' + CONFIG.lastName);
+$('[data-initials]').textContent = (CONFIG.firstName[0] + CONFIG.lastName[0]).toUpperCase();
+$$('[data-github]').forEach(e => e.href = CONFIG.github);
+$$('[data-mail]').forEach(e => e.href = 'mailto:' + CONFIG.email);
+$('#yr').textContent = new Date().getFullYear();
+document.title = `${CONFIG.firstName} ${CONFIG.lastName} — Web Developer & Video Editor`;
+
+// Projects
+const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="#04130a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+$('#projList').innerHTML = CONFIG.projects.map(p => `
+  <article class="proj" data-type="${p.type}">
+    <div class="thumb ${p.type === 'video' ? 'vid' : 'web'}" style="background:${p.grad}">${p.len ? `<span class="len">${p.len}</span>` : ''}</div>
+    <h3>${p.title}</h3>
+    <p>${p.desc}</p>
+    <div class="foot">
+      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <a class="go" href="${p.link}" target="_blank" rel="noopener" aria-label="${p.type === 'video' ? 'Watch' : 'Open'} ${p.title}">${arrow}</a>
+    </div>
+  </article>`).join('');
+
+// Skills
+$('#skillList').innerHTML = CONFIG.skills.map(s => `
+  <div class="skill" data-type="${s.t}"><i style="background:${s.col};color:${s.dark ? '#111' : '#fff'}">${s.c}</i>${s.n}</div>`).join('');
+
+// Filters
+function wireTabs(tabsSel, itemSel, onChange) {
+  const tabs = $$(tabsSel + ' .tab');
+  tabs.forEach(b => b.addEventListener('click', () => {
+    tabs.forEach(t => t.setAttribute('aria-pressed', t === b));
+    $$(itemSel).forEach(el => el.hidden = !(b.dataset.f === 'all' || el.dataset.type === b.dataset.f));
+    onChange && onChange(b.dataset.f);
+  }));
+}
+wireTabs('#projTabs', '.proj');
+wireTabs('#skillTabs', '.skill');
+
+// "Watch Reel" button jumps to video projects
+$('[data-filter-jump]').addEventListener('click', () => $('#projTabs [data-f="video"]').click());
+
+// Timeline playhead + timecode
+const tracks = $('#tracks'), ph = $('#playhead'), tc = $('#tc');
+const DURATION = 9000;
+function sizeSpan() { tracks.style.setProperty('--span', (tracks.clientWidth - 26) + 'px'); }
+sizeSpan(); addEventListener('resize', sizeSpan);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tick() {
+  const t = (performance.now() % DURATION) / DURATION * 36; // seconds on the fake timeline
+  const s = Math.floor(t), f = Math.floor((t - s) * 24);
+  tc.textContent = `00:00:${String(s).padStart(2,'0')}:${String(f).padStart(2,'0')}`;
+  requestAnimationFrame(tick);
+}
+if (!reduce) tick(); else tc.textContent = '00:00:12:08';
+</script>
+</body>
+</html>
